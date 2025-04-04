@@ -1,4 +1,16 @@
-## 🔹 Why Random Search with Early Stopping Can Be Better
+## ⚠️ Some issues that we were facing
+
+### 🔹 1.1 Model Not Built Before Loading Weights
+- As seen in your error, **Hyperband may try to reload weights into an unbuilt model**.
+- **Fix**: Ensure `model.build(input_shape=...)` is called **before loading weights**.
+
+### 🔹 1.2 Unstable Training with Large Search Spaces
+- Hyperband **aggressively allocates resources** to promising trials while **terminating weaker ones early**.
+- If your search space is **too wide**, the tuner might:
+  - Explore **too many weak configurations early**.
+  - **Miss better hyperparameter sets** that require more training.
+
+## 🔹 Why Random Search with Early Stopping Can Be Better than Hyperband
 
 ### 🚀 Less Risk of Discarding Good Trials Too Early
 - Hyperband aggressively **stops trials early** based on initial performance.
