@@ -1,4 +1,4 @@
-## ⚠️ Some issues that we were facing
+## ⚠️ Some issues that we were facing with hyperband
 
 ### 🔹 1.1 Model Not Built Before Loading Weights
 - As seen in your error, **Hyperband may try to reload weights into an unbuilt model**.
