@@ -6,5 +6,5 @@ Based on the model performance curves we've analyzed, we decided that a batch si
 For our rare species dataset with inherent class imbalance, this batch size helps ensure that even less common classes have a reasonable probability of appearing in each training batch.
 
 Bibiography:
-Keskar, N. S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P. T. P. (2017). On large-batch training for deep learning: Generalization gap and sharp minima. In International Conference on Learning Representations (ICLR).
+- Keskar, N. S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P. T. P. (2017). On large-batch training for deep learning: Generalization gap and sharp minima. In International Conference on Learning Representations (ICLR).
 Link: https://arxiv.org/abs/1609.04836
