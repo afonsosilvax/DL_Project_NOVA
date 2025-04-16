@@ -9,3 +9,5 @@ Bibiography:
 
 - Keskar, N. S., Mudigere, D., Nocedal, J., Smelyanskiy, M., & Tang, P. T. P. (2017). On large-batch training for deep learning: Generalization gap and sharp minima. In International Conference on Learning Representations (ICLR).
 Link: https://arxiv.org/abs/1609.04836
+- Masters, D., & Luschi, C. (2018). Revisiting small batch training for deep neural networks. arXiv preprint.
+Link: https://arxiv.org/abs/1804.07612
