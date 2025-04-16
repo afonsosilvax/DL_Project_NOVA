@@ -1,30 +1,7 @@
-## ⚠️ Some issues that we were facing with hyperband
-
-### 🔹 1.1 Model Not Built Before Loading Weights
-- As seen in your error, **Hyperband may try to reload weights into an unbuilt model**.
-- **Fix**: Ensure `model.build(input_shape=...)` is called **before loading weights**.
-
-### 🔹 1.2 Unstable Training with Large Search Spaces
-- Hyperband **aggressively allocates resources** to promising trials while **terminating weaker ones early**.
-- If your search space is **too wide**, the tuner might:
-  - Explore **too many weak configurations early**.
-  - **Miss better hyperparameter sets** that require more training.
-
-## 🔹 Why Random Search with Early Stopping Can Be Better than Hyperband
-
-### 🚀 Less Risk of Discarding Good Trials Too Early
-- Hyperband aggressively **stops trials early** based on initial performance.
-- If your model has a **slow convergence rate**, Hyperband might **kill a good configuration too soon**.
-- **Random Search + Early Stopping ensures that each trial gets a fair chance** before stopping.
-
-### 🎯 More Flexible Search Space
-- Hyperband relies on **fixed brackets and rounds**, while **Random Search explores freely**.
-- If your model has **some rare but highly effective hyperparameter sets**, Random Search has **higher chances of finding them**.
-
-### 📊 Better for Noisy Datasets
-- If your dataset is **noisy** or **imbalanced**, early stopping with patience can **prevent overfitting without discarding trials too soon**.
-- Hyperband might **overreact to initial fluctuations in validation loss**.
-
-### 🔄 More Stable and Reproducible
-- Hyperband's **early termination strategy makes it less deterministic**.
-- **Random Search + Callbacks provides more control over when training stops**.
+- Our decision to use Random Search with Early Stopping instead of Hyperband was based on both practical considerations and theoretical foundations from the scientific literature.
+- Hyperband, while theoretically promising, is designed to aggressively terminate low-performing configurations early. As demonstrated by Li et al. (2018), this approach is based on the assumption that early performance reliably predicts final performance . However, this assumption proved problematic for our rare species classification task with imbalanced data, where promising configurations often required more training time to reveal their true potential.
+- Klein et al. (2017) specifically noted in their experiments that while Hyperband could find configurations with good performance faster than standard Bayesian optimization, "its random sampling did not suffice to quickly approach the best configuration; given enough time Bayesian optimization performed better." CS 159 blog website This aligns precisely with our observations during testing.
+- We encountered technical implementation challenges with Hyperband where it attempted to reload weights into unbuilt models, causing workflow interruptions. These implementation difficulties made Random Search more practical and reliable for our application, as supported by research on hyperparameter tuning methodologies .
+- For datasets with inherent class imbalance and noise like our rare species collection, Random Search with Early Stopping provided several key advantages. It allowed models more training time before assessment through its patience-based mechanism, which was critical for handling the fluctuations in validation metrics that are common in imbalanced datasets . Random Search also offers greater flexibility with complex search spaces and is embarrassingly parallel, making it ideal for distributed computing environments.
+- Additionally, Random Search provides "anytime results," returning the best configuration found at any point, which was valuable for our resource-constrained project timeline . While it doesn't learn from past evaluations like Bayesian optimization methods, this simplicity proved to be an advantage in our case, providing more stable and reproducible results without the complexity of maintaining surrogate models.
+- By implementing Random Search with customized early stopping callbacks, we achieved more reliable identification of promising model configurations for our specific rare species classification challenge, while avoiding the premature termination of potentially valuable hyperparameter combinations that we experienced with Hyperband. 33rd Square
